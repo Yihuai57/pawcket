@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pawcket - Your Pet's Pocket Companion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Base Tailwind-like styles */
+    *, ::before, ::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: 'Inter', sans-serif; line-height: 1.5; scroll-behavior: smooth; }
+    body { background-color: white; color: #1f2937; min-height: 100vh; }
+    
+    /* Custom Colors */
+    :root {
+      --pawcket-orange: #FF9E4F;
+      --pawcket-teal: #4FD1C5;
+      --pawcket-green: #68D391;
+    }
+    
+    /* Header Styles */
+    header {
+      background-color: white;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .container {
+      max-width: 80rem;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    @media (min-width: 640px) {
+      .container { padding-left: 1.5rem; padding-right: 1.5rem; }
+    }
+    @media (min-width: 1024px) {
+      .container { padding-left: 2rem; padding-right: 2rem; }
+    }
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .logo-icon {
+      color: var(--pawcket-orange);
+      font-size: 1.5rem;
+      margin-right: 0.25rem;
+    }
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.5rem;
+      background: linear-gradient(to right, var(--pawcket-orange), var(--pawcket-teal));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .nav {
+      display: none;
+    }
+    @media (min-width: 768px) {
+      .nav { display: flex; gap: 2rem; }
+      .mobile-menu-btn { display: none; }
+    }
+    .nav-link {
+      color: #4b5563;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-link:hover {
+      color: var(--pawcket-orange);
+    }
+    .mobile-menu-btn {
+      color: #6b7280;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .mobile-menu-btn:hover {
+      color: #4b5563;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+    
+    /* Hero Section Styles */
+    .hero {
+      background: linear-gradient(to bottom right, rgba(255, 158, 79, 0.1), rgba(79, 209, 197, 0.1));
+      padding: 5rem 1rem;
+    }
+    @media (min-width: 768px) {
+      .hero { padding: 7rem 1.5rem; }
+    }
+    .hero-content {
+      text-align: center;
+      max-width: 48rem;
+      margin: 0 auto;
+    }
+    .hero-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+    @media (min-width: 768px) {
+      .hero-title { font-size: 3rem; }
+    }
+    @media (min-width: 1024px) {
+      .hero-title { font-size: 3.75rem; }
+    }
+    .hero-title span {
+      background: linear-gradient(to right, var(--pawcket-orange), var(--pawcket-teal));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: #4b5563;
+      margin-bottom: 2rem;
+    }
+    @media (min-width: 768px) {
+      .hero-subtitle { font-size: 1.5rem; }
+    }
+    .cta-button {
+      display: inline-block;
+      background-color: var(--pawcket-orange);
+      color: white;
+      font-weight: 500;
+      font-size: 1.125rem;
+      padding: 1rem 2rem;
+      border-radius: 9999px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+    .cta-button:hover {
+      background-color: rgba(255, 158, 79, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    /* About Section Styles */
+    .about {
+      padding: 5rem 1rem;
+      background-color: #f9fafb;
+    }
+    .about-content {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 768px) {
+      .about-content {
+        grid-template-columns: 3fr 2fr;
+        gap: 4rem;
+      }
+    }
+    .about-text {
+      color: #4b5563;
+    }
+    .about-paragraph {
+      margin-bottom: 1.5rem;
+      font-size: 1.125rem;
+    }
+    .about-subtitle {
+      color: var(--pawcket-teal);
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    .about-vision {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    .about-values {
+      list-style-type: none;
+      margin-top: 1rem;
+    }
+    .about-values li {
+      margin-bottom: 0.75rem;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    .about-values li:before {
+      content: "🐾";
+      position: absolute;
+      left: 0;
+      font-size: 0.875rem;
+    }
+    .about-values li span {
+      font-weight: 600;
+      color: var(--pawcket-orange);
+    }
+    
+    /* Features Section Styles */
+    .features {
+      padding: 4rem 1rem;
+      background-color: white;
+    }
+    .section-title {
+      font-size: 1.875rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 3rem;
+      color: #111827;
+    }
+    .features-grid {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 768px) {
+      .features-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .feature-card {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      border: 1px solid #f3f4f6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: box-shadow 0.3s;
+    }
+    .feature-card:hover {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .feature-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--pawcket-teal);
+    }
+    .feature-desc {
+      color: #4b5563;
+    }
+    
+    /* Footer and Contact Styles */
+    footer {
+      background-color: #f9fafb;
+      border-top: 1px solid #f3f4f6;
+      padding: 3rem 1rem;
+    }
+    .footer-grid {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 768px) {
+      .footer-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .footer-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 1rem;
+    }
+    .footer-text {
+      color: #4b5563;
+      margin-bottom: 0.5rem;
+    }
+    .footer-link {
+      color: #4b5563;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-link:hover {
+      color: var(--pawcket-orange);
+    }
+    .footer-email, .footer-address {
+      font-weight: 500;
+    }
+    .footer-links {
+      list-style-type: none;
+    }
+    .footer-links li {
+      margin-bottom: 0.5rem;
+    }
+    .social-links {
+      display: flex;
+      gap: 1rem;
+    }
+    .social-link {
+      color: #9ca3af;
+      transition: color 0.2s;
+    }
+    .social-link:hover {
+      color: var(--pawcket-orange);
+    }
+    
+    /* Contact Form Styles */
+    .contact-form-container {
+      margin-top: 3rem;
+      max-width: 40rem;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    .contact-form {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 640px) {
+      .contact-form {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .contact-form .form-group:last-of-type {
+        grid-column: span 2;
+      }
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    .form-group label {
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #4b5563;
+    }
+    .form-group input,
+    .form-group select {
+      padding: 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--pawcket-teal);
+      box-shadow: 0 0 0 3px rgba(79, 209, 197, 0.2);
+    }
+    .submit-btn {
+      background-color: var(--pawcket-teal);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      margin-top: 1rem;
+      grid-column: span 2;
+      justify-self: center;
+    }
+    .submit-btn:hover {
+      background-color: rgba(79, 209, 197, 0.9);
+    }
+    
+    .copyright {
+      padding-top: 2rem;
+      margin-top: 2rem;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+
+    /* 添加招聘信息样式 */
+    .join-us-content {
+      color: #4b5563;
+    }
+    .join-us-subtitle {
+      color: var(--pawcket-teal);
+      font-size: 1.25rem;
+      margin: 1.5rem 0 1rem;
+      font-weight: 600;
+    }
+    .join-us-positions {
+      list-style-type: none;
+      margin-bottom: 1.5rem;
+    }
+    .join-us-positions li {
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+    .join-us-positions li:before {
+      content: "🐾";
+      position: absolute;
+      left: 0;
+      font-size: 0.875rem;
+    }
+    .position-title {
+      font-weight: 600;
+      color: var(--pawcket-orange);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+    .position-desc {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <!-- Logo -->
+        <div class="logo">
+          <span class="logo-icon">🐾</span>
+          <span class="logo-text">Pawcket</span>
+        </div>
+        
+        <!-- Navigation -->
+        <nav class="nav">
+          <a href="#hero" class="nav-link">Home</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#contact" class="nav-link">Contact</a>
+        </nav>
+        
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn">
+          <span class="sr-only">Open menu</span>
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            <span>Your pet's pocket companion</span>
+          </h1>
+          
+          <p class="hero-subtitle">
+            Track tasks, connect with other pets, and find nearby vet clinics.
+          </p>
+          
+          <a href="#contact" class="cta-button">
+            Join the Pack
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+      <div class="container">
+        <h2 class="section-title">About Us</h2>
+        <div class="about-content">
+          <div class="about-text">
+            <p class="about-paragraph">
+              Pawcket is a proudly Edmonton-based pet tech startup founded by a passionate team of University of Alberta students. Our diverse backgrounds in computer science, veterinary sciences, and business have come together to create an innovative solution for pet owners.
+            </p>
+            <p class="about-paragraph">
+              Our journey began in the UofA dorms where we noticed how challenging it was for student pet owners to manage their furry friends' schedules alongside demanding academic commitments. This sparked the idea for Pawcket - a comprehensive pet management app that simplifies the pet ownership experience.
+            </p>
+            <p class="about-paragraph">
+              Our mission is to strengthen the bond between pets and their owners through thoughtful technology. We believe that when pet care is simplified, both pets and owners experience a higher quality of life together.
+            </p>
+            <p class="about-paragraph">
+              With Pawcket, we're not just building an app; we're creating a community of caring pet owners in Edmonton and beyond, connected through their love for their animal companions.
+            </p>
+          </div>
+          <div class="about-vision">
+            <h3 class="about-subtitle">Our Vision</h3>
+            <p class="about-paragraph">
+              We envision a world where pet ownership is seamless, social, and supported by smart technology. Where pet parents never miss an important appointment, where finding pet-friendly spaces is easy, and where pet communities thrive.
+            </p>
+            <h3 class="about-subtitle">Our Values</h3>
+            <ul class="about-values">
+              <li><span>Pet-first thinking</span>: Every feature we develop considers your pet's wellbeing first</li>
+              <li><span>Local roots</span>: Supporting Edmonton's pet community while growing globally</li>
+              <li><span>Innovation</span>: Constantly evolving our platform based on pet owner feedback</li>
+              <li><span>Inclusivity</span>: Creating tools for all types of pets and pet families</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features">
+      <div class="container">
+        <h2 class="section-title">Our Features</h2>
+        
+        <div class="features-grid">
+          <!-- Feature 1 -->
+          <div class="feature-card">
+            <div class="feature-icon">⏰</div>
+            <h3 class="feature-title">Task Reminders</h3>
+            <p class="feature-desc">Never miss a vet appointment, feeding time, or medication again.</p>
+          </div>
+          
+          <!-- Feature 2 -->
+          <div class="feature-card">
+            <div class="feature-icon">🐾</div>
+            <h3 class="feature-title">Pet Social Connections</h3>
+            <p class="feature-desc">Connect with other pet owners for playdates and advice.</p>
+          </div>
+          
+          <!-- Feature 3 -->
+          <div class="feature-card">
+            <div class="feature-icon">🗺️</div>
+            <h3 class="feature-title">Vet Clinic Map</h3>
+            <p class="feature-desc">Find the nearest vet clinics with reviews from other pet owners.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <footer id="contact">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Contact Information -->
+        <div>
+          <h3 class="footer-title">Contact Us</h3>
+          <p class="footer-text">
+            <span class="footer-email">Email:</span>
+            <a href="mailto:pawcketpets@gmail.com" class="footer-link">
+              pawcketpets@gmail.com
+            </a>
+          </p>
+          <p class="footer-text">
+            <span class="footer-address">Address:</span><br>
+            University of Alberta<br>
+            Edmonton, Alberta, Canada
+          </p>
+        </div>
+        
+        <!-- Quick Links -->
+        <div>
+          <h3 class="footer-title">Quick Links</h3>
+          <ul class="footer-links">
+            <li>
+              <a href="#about" class="footer-link">About Us</a>
+            </li>
+            <li>
+              <a href="#contact" class="footer-link">Contact</a>
+            </li>
+            <li>
+              <a href="#" class="footer-link">Privacy Policy</a>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Social Media -->
+        <div>
+          <h3 class="footer-title">Follow Us</h3>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Facebook">
+              <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+              </svg>
+            </a>
+            <a href="#" class="social-link" aria-label="Instagram">
+              <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Contact Form -->
+      <div class="contact-form-container">
+        <h3 class="footer-title">Join Our Team</h3>
+        <div class="join-us-content">
+          <p class="about-paragraph">
+            We're always looking for talented individuals to join our growing team. At Pawcket, we value creativity, passion for pets, and dedication to building innovative solutions.
+          </p>
+          
+          <h4 class="join-us-subtitle">Open Positions:</h4>
+          <ul class="join-us-positions">
+            <li>
+              <span class="position-title">Mobile App Developer</span> 
+              <p class="position-desc">Skilled in React Native or Flutter to help build our cross-platform mobile application.</p>
+            </li>
+            <li>
+              <span class="position-title">UX/UI Designer</span>
+              <p class="position-desc">Experienced in creating intuitive and delightful user experiences for pet-related applications.</p>
+            </li>
+            <li>
+              <span class="position-title">Veterinary Consultant</span>
+              <p class="position-desc">Professional with veterinary background to provide expert input on pet health features.</p>
+            </li>
+          </ul>
+          
+          <p class="about-paragraph">
+            To apply, please send your resume and a brief introduction to <a href="mailto:pawcketpets@gmail.com" class="footer-link">pawcketpets@gmail.com</a>.
+          </p>
+          
+          <p class="about-paragraph">
+            We offer a fun, pet-friendly work environment at the University of Alberta, competitive compensation, and the opportunity to make a positive impact on pet owners' lives.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Copyright -->
+      <div class="copyright">
+        &copy; <script>document.write(new Date().getFullYear())</script> Pawcket. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Simple mobile menu toggle
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+      
+      mobileMenuBtn.addEventListener('click', function() {
+        alert('Mobile menu functionality would go here in a complete implementation!');
+      });
+      
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+    });
+    
+    // Form submission
+    function submitForm() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const petType = document.getElementById('pet-type').value;
+      
+      if (name && email && petType) {
+        alert(`Thanks for joining, ${name}! We'll send updates about Pawcket to ${email}.`);
+        // Reset form
+        document.querySelector('.contact-form').reset();
+      } else {
+        alert('Please fill in all fields to join our community.');
+      }
+    }
+  </script>
+</body>
+</html> 
